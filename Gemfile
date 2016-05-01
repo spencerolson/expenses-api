@@ -9,6 +9,7 @@ gem 'spring', :group => :development
 
 gem 'pg'
 
+gem 'knock'
 
 group :development, :test do
   gem 'pry-rails'
