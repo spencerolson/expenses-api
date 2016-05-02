@@ -21,7 +21,7 @@ Knock.setup do |config|
   ## You must raise ActiveRecord::RecordNotFound if the resource cannot be retrieved.
   ##
   ## Default:
-  # config.current_user_from_handle = -> (handle) { User.find_by! Knock.handle_attr => handle }
+  config.current_user_from_handle = -> (handle) { User.find_by! Knock.handle_attr => handle }
 
   ## Current user retrieval when validating token
   ## --------------------------------------------
@@ -33,7 +33,7 @@ Knock.setup do |config|
   ## You must raise ActiveRecord::RecordNotFound if the resource cannot be retrieved.
   ##
   ## Default:
-  # config.current_user_from_token = -> (claims) { User.find claims['sub'] }
+  config.current_user_from_token = -> (claims) { User.find claims['sub'] }
 
 
   ## Expiration claim
@@ -42,7 +42,7 @@ Knock.setup do |config|
   ## How long before a token is expired.
   ##
   ## Default:
-  # config.token_lifetime = 1.day
+  config.token_lifetime = 1.day
 
 
   ## Audience claim
@@ -52,10 +52,10 @@ Knock.setup do |config|
   ## is intended for.
   ##
   ## Default:
-  # config.token_audience = nil
+  config.token_audience = nil
 
   ## If using Auth0, uncomment the line below
-  # config.token_audience = -> { Rails.application.secrets.auth0_client_id }
+  config.token_audience = -> { Rails.application.secrets.auth0_client_id }
 
   ## Signature algorithm
   ## -------------------
@@ -63,7 +63,7 @@ Knock.setup do |config|
   ## Configure the algorithm used to encode the token
   ##
   ## Default:
-  # config.token_signature_algorithm = 'HS256'
+  config.token_signature_algorithm = 'HS256'
 
   ## Signature key
   ## -------------
@@ -71,7 +71,11 @@ Knock.setup do |config|
   ## Configure the key used to sign tokens.
   ##
   ## Default:
-  # config.token_secret_signature_key = -> { Rails.application.secrets.secret_key_base }
+config.token_secret_signature_key = -> {
+    secret = Rails.application.secrets.auth0_client_secret
+    secret += '=' * (4 - secret.length.modulo(4))
+    Base64.decode64(secret.tr('-_', '+/'))
+  }
 
   ## If using Auth0, uncomment the line below
   # config.token_secret_signature_key = -> { JWT.base64url_decode Rails.application.secrets.auth0_client_secret }
