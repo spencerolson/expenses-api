@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   mount Knock::Engine => "/knock"
   post '/users' => 'users#create'
-  get '/users' => 'users#index'
+  get '/groups' => 'groups#index'
+  post '/groups' => 'groups#create'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
