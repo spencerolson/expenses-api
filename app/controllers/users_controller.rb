@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+    before_action :authenticate, only: [:index]
+
   def create
     user = User.create(user_params)
     if user.valid?
