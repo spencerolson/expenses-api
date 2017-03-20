@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_action :authenticate
+  before_action :authenticate_user
 
   def create
     group = current_user.groups.create(group_params)
@@ -11,6 +11,7 @@ class GroupsController < ApplicationController
   end
 
   def index
+    puts "yo"
     render json: current_user.groups
   end
 
